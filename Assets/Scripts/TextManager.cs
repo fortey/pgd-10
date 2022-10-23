@@ -6,23 +6,32 @@ using UnityEngine;
 public class TextManager : MonoBehaviour
 {
     [SerializeField] private TextField _textField;
+    [SerializeField] private Popup _popup;
     //private string _text;
     private Dictionary<string, string> _parts = new Dictionary<string, string>();
+    private Dictionary<string, string> _itemsParts = new Dictionary<string, string>();
 
     void Start()
     {
-        _textField.GetPart = getPart;
+        _textField.GetPart = GetPart;
+        _textField.ShowPopup = ShowPopup;
 
         TextAsset theTextFile = Resources.Load<TextAsset>("text");
         if (theTextFile != null)
         {
-            ParseText(theTextFile.text);
+            ParseText(theTextFile.text, _parts);
 
             _textField.SetText(_parts["start"]);
         }
+
+        theTextFile = Resources.Load<TextAsset>("items");
+        if (theTextFile != null)
+        {
+            ParseText(theTextFile.text, _itemsParts);
+        }
     }
 
-    private void ParseText(string text)
+    private void ParseText(string text, Dictionary<string, string> parts)
     {
         var lines = text.Split('\n');
 
@@ -34,7 +43,7 @@ public class TextManager : MonoBehaviour
             {
                 if (key != "")
                 {
-                    _parts.Add(key, builder.ToString());
+                    parts.Add(key, builder.ToString());
                 }
 
                 key = line.Substring(line.IndexOf('#') + 1).Trim();
@@ -61,10 +70,16 @@ public class TextManager : MonoBehaviour
         }
     }
 
-    private string getPart(string key)
+    private string GetPart(string key)
     {
         if (_parts.ContainsKey(key))
             return _parts[key];
         else return "";
+    }
+
+    private void ShowPopup(string key)
+    {
+        if (_itemsParts.ContainsKey(key))
+            _popup.ShowText(_itemsParts[key]);
     }
 }
