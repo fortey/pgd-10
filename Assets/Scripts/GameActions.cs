@@ -3,15 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameActions : MonoBehaviour
+public class GameActions : Singleton<GameActions>
 {
-    public static GameActions instance;
-
     private Dictionary<string, Action> _actions;
 
-    private void Awake()
+    public override void Awake()
     {
-        instance = this;
+        base.Awake();
 
         _actions = new Dictionary<string, Action>();
         _actions.Add("takeKnife", TakeKnife);
@@ -27,6 +25,7 @@ public class GameActions : MonoBehaviour
 
     private void TakeKnife()
     {
-        GlobalVariables.instance.vars["knife"] = true;
+        GlobalVariables.Instance.vars["knife"] = true;
+        Inventory.Instance.AddItem("нож");
     }
 }

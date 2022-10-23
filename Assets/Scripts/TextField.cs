@@ -35,7 +35,7 @@ public class TextField : MonoBehaviour, IPointerClickHandler
             if (url.IndexOf("!") == -1)
             {
                 if (_actionTexts.ContainsKey(linkInfo.GetLinkText()))
-                    GameActions.instance.Invoke(_actionTexts[linkInfo.GetLinkText()]);
+                    GameActions.Instance.Invoke(_actionTexts[linkInfo.GetLinkText()]);
                 SetText(GetPart(url));
             }
             else
@@ -68,11 +68,11 @@ public class TextField : MonoBehaviour, IPointerClickHandler
                 key = key.Replace("!", "");
                 flag = false;
             }
-            if (!GlobalVariables.instance.vars.ContainsKey(key))
+            if (!GlobalVariables.Instance.vars.ContainsKey(key))
                 Debug.LogError(key);
 
             var sentense = "";
-            if (GlobalVariables.instance.vars.ContainsKey(key) && (flag && GlobalVariables.instance.vars[key] || !flag && !GlobalVariables.instance.vars[key]))
+            if (GlobalVariables.Instance.vars.ContainsKey(key) && (flag && GlobalVariables.Instance.vars[key] || !flag && !GlobalVariables.Instance.vars[key]))
                 sentense = cur_text.Substring(separator + 1, end - separator - 1);
             cur_text = cur_text.Replace(cur_text.Substring(start, end - start + 1), sentense);
         }

@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class GlobalVariables : MonoBehaviour
+public class GlobalVariables : Singleton<GlobalVariables>
 {
-    public static GlobalVariables instance;
-
     [SerializeField] private Variables _variables;
     public Dictionary<string, bool> vars;
 
-    private void Awake()
+    public override void Awake()
     {
-        instance = this;
+        base.Awake();
         vars = _variables.vars.ToDictionary(v => v.name, v => v.value);
     }
 }
