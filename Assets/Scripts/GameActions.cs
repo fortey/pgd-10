@@ -28,4 +28,10 @@ public class GameActions : Singleton<GameActions>
         GlobalVariables.Instance.vars["knife"] = true;
         Inventory.Instance.AddItem("нож");
     }
+
+    public void TakeItem(Entity item)
+    {
+        GlobalVariables.Instance.vars[item.id] = true;
+        Inventory.Instance.AddItem(item.name);
+    }
 }

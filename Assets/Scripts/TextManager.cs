@@ -41,6 +41,7 @@ public class TextManager : MonoBehaviour
 
         var key = "";
         var name = "";
+        var takeable = false;
         var builder = new StringBuilder();
         foreach (var line in lines)
         {
@@ -48,7 +49,7 @@ public class TextManager : MonoBehaviour
             {
                 if (key != "")
                 {
-                    _parts.Add(key, new Entity() { name = name, text = builder.ToString() });
+                    _parts.Add(key, new Entity() { id = key, name = name, text = builder.ToString(), takeable = takeable });
                 }
 
                 var start = line.IndexOf('#');
@@ -57,6 +58,13 @@ public class TextManager : MonoBehaviour
                 if (separator == -1) break;
                 key = line.Substring(start + 1, separator - start - 1).Trim();
                 name = line.Substring(separator + 1).Trim();
+
+                if (name.IndexOf("takeable") != -1)
+                {
+                    takeable = true;
+                    name = name.Replace("takeable", "").Trim();
+                }
+                else takeable = false;
 
                 builder.Clear();
             }
@@ -99,6 +107,8 @@ public class TextManager : MonoBehaviour
 
 public struct Entity
 {
+    public string id;
     public string name;
     public string text;
+    public bool takeable;
 }

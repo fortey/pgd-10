@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Variables
   m_EditorClassIdentifier: 
   vars:
-  - name: knife
+  - name: kn
     value: 0

@@ -546,10 +546,34 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 855400234}
+        m_TargetAssemblyTypeName: TextField, Assembly-CSharp
+        m_MethodName: OnClickAction
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 1143335725}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1415110975}
+        m_TargetAssemblyTypeName: TextField, Assembly-CSharp
+        m_MethodName: RefreshText
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -709,7 +733,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -11, y: -16.9338}
+  m_AnchoredPosition: {x: -11, y: -16.933777}
   m_SizeDelta: {x: 20, y: -33.9338}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &248756409
@@ -1076,7 +1100,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 942852260}
   m_HandleRect: {fileID: 942852259}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -1418,7 +1442,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0.000061035156, y: 60}
+  m_AnchoredPosition: {x: 0, y: 60}
   m_SizeDelta: {x: -79.99982, y: 60}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &517445091
@@ -2357,7 +2381,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u041E\u0442\u043E\u0439\u0442\u0438"
+  m_text: "\u0412\u0437\u044F\u0442\u044C"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: bf822762b1193c646b0219496f5724f5, type: 2}
   m_sharedMaterial: {fileID: 7844155902445031464, guid: bf822762b1193c646b0219496f5724f5, type: 2}
@@ -2645,7 +2669,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000030517578, y: -65}
+  m_AnchoredPosition: {x: 0, y: -65}
   m_SizeDelta: {x: -79.99997, y: -170}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1143335727
@@ -3065,7 +3089,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 1.5316772, y: -166.85388}
+  m_AnchoredPosition: {x: 1.5317383, y: -166.85388}
   m_SizeDelta: {x: -32.5691, y: -397.5375}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1334230949
@@ -3163,7 +3187,7 @@ GameObject:
   - component: {fileID: 1415110975}
   - component: {fileID: 1415110974}
   m_Layer: 5
-  m_Name: Content
+  m_Name: main text field
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -17,20 +17,20 @@ public class TextField : MonoBehaviour, IPointerClickHandler
 
     private Dictionary<string, string> _actionTexts = new Dictionary<string, string>();
 
-    private string _lastUrl;
+    private Entity _lastEntity;
 
 
     public void SetText(string url)
     {
-        _lastUrl = url;
-        RefreshText();
+        _lastEntity = GetPart(url);
+        _nameLabel.text = _lastEntity.name;
+        _textMeshPro.text = ParseText(_lastEntity.text);
+        _actionButton.gameObject.SetActive(_lastEntity.takeable);
     }
 
     public void RefreshText()
     {
-        var entity = GetPart(_lastUrl);
-        _nameLabel.text = entity.name;
-        _textMeshPro.text = ParseText(entity.text);
+        SetText(_lastEntity.id);
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -60,7 +60,6 @@ public class TextField : MonoBehaviour, IPointerClickHandler
     {
         var cur_text = text;
         _actionTexts.Clear();
-        _actionButton.gameObject.SetActive(false);
 
         while (cur_text.IndexOf('<') != -1)
         {
@@ -77,11 +76,11 @@ public class TextField : MonoBehaviour, IPointerClickHandler
                 key = key.Replace("!", "");
                 flag = false;
             }
-            if (!GlobalVariables.Instance.vars.ContainsKey(key))
-                Debug.LogError(key);
+            // if (!GlobalVariables.Instance.vars.ContainsKey(key))
+            //     Debug.LogError(key);
 
             var sentense = "";
-            if (GlobalVariables.Instance.vars.ContainsKey(key) && (flag && GlobalVariables.Instance.vars[key] || !flag && !GlobalVariables.Instance.vars[key]))
+            if (GlobalVariables.Instance.vars.ContainsKey(key) && flag && GlobalVariables.Instance.vars[key] || !flag && (!GlobalVariables.Instance.vars.ContainsKey(key) || !GlobalVariables.Instance.vars[key]))
                 sentense = cur_text.Substring(separator + 1, end - separator - 1);
             cur_text = cur_text.Replace(cur_text.Substring(start, end - start + 1), sentense);
         }
@@ -135,6 +134,6 @@ public class TextField : MonoBehaviour, IPointerClickHandler
 
     public void OnClickAction()
     {
-
+        GameActions.Instance.TakeItem(_lastEntity);
     }
 }

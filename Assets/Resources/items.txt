@@ -1,4 +1,4 @@
-#knife Нож
+#knife Нож takeable
 описание ножа
 <!knife {1 &takeKnife Взять нож.}>
 #end
