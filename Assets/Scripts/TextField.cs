@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(TextMeshProUGUI))]
 public class TextField : MonoBehaviour, IPointerClickHandler
@@ -12,17 +13,22 @@ public class TextField : MonoBehaviour, IPointerClickHandler
     public Action<string> ShowPopup;
     [SerializeField] private TextMeshProUGUI _textMeshPro;
     [SerializeField] private TextMeshProUGUI _nameLabel;
-    private Camera _camera;
+    [SerializeField] private Button _actionButton;
 
     private Dictionary<string, string> _actionTexts = new Dictionary<string, string>();
-    void Awake()
+
+    private string _lastUrl;
+
+
+    public void SetText(string url)
     {
-        //_textMeshPro = GetComponent<TextMeshProUGUI>();
-        _camera = Camera.main;
+        _lastUrl = url;
+        RefreshText();
     }
 
-    public void SetText(Entity entity)
+    public void RefreshText()
     {
+        var entity = GetPart(_lastUrl);
         _nameLabel.text = entity.name;
         _textMeshPro.text = ParseText(entity.text);
     }
@@ -38,7 +44,7 @@ public class TextField : MonoBehaviour, IPointerClickHandler
             {
                 if (_actionTexts.ContainsKey(linkInfo.GetLinkText()))
                     GameActions.Instance.Invoke(_actionTexts[linkInfo.GetLinkText()]);
-                SetText(GetPart(url));
+                SetText(url);
             }
             else
             {
@@ -54,6 +60,7 @@ public class TextField : MonoBehaviour, IPointerClickHandler
     {
         var cur_text = text;
         _actionTexts.Clear();
+        _actionButton.gameObject.SetActive(false);
 
         while (cur_text.IndexOf('<') != -1)
         {
@@ -124,5 +131,10 @@ public class TextField : MonoBehaviour, IPointerClickHandler
         }
 
         return cur_text;
+    }
+
+    public void OnClickAction()
+    {
+
     }
 }

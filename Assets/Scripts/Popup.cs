@@ -8,10 +8,10 @@ public class Popup : MonoBehaviour
     [SerializeField] private TextField _textField;
     public Action onAction;
 
-    public void ShowText(Entity entity)
+    public void ShowText(string url)
     {
         gameObject.SetActive(true);
-        _textField.SetText(entity);
+        _textField.SetText(url);
     }
 
     public void OnAction()

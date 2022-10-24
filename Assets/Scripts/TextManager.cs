@@ -6,34 +6,36 @@ using UnityEngine;
 public class TextManager : MonoBehaviour
 {
     [SerializeField] private TextField _textField;
+    [SerializeField] private TextField _popupTextField;
     [SerializeField] private Popup _popup;
     //private string _text;
     private Dictionary<string, Entity> _parts = new Dictionary<string, Entity>();
-    private Dictionary<string, Entity> _itemsParts = new Dictionary<string, Entity>();
-    private string _lastLocationKey;
+    //private Dictionary<string, Entity> _itemsParts = new Dictionary<string, Entity>();
 
     void Start()
     {
         _textField.GetPart = GetPart;
         _textField.ShowPopup = ShowPopup;
 
+        _popupTextField.GetPart = GetPart;
+        _popupTextField.ShowPopup = ShowPopup;
+
         TextAsset theTextFile = Resources.Load<TextAsset>("text");
         if (theTextFile != null)
         {
-            ParseText(theTextFile.text, _parts);
-
-            _lastLocationKey = "start";
-            _textField.SetText(_parts["start"]);
+            ParseText(theTextFile.text);
         }
 
         theTextFile = Resources.Load<TextAsset>("items");
         if (theTextFile != null)
         {
-            ParseText(theTextFile.text, _itemsParts);
+            ParseText(theTextFile.text);
         }
+
+        _textField.SetText("start");
     }
 
-    private void ParseText(string text, Dictionary<string, Entity> parts)
+    private void ParseText(string text)
     {
         var lines = text.Split('\n');
 
@@ -46,7 +48,7 @@ public class TextManager : MonoBehaviour
             {
                 if (key != "")
                 {
-                    parts.Add(key, new Entity() { name = name, text = builder.ToString() });
+                    _parts.Add(key, new Entity() { name = name, text = builder.ToString() });
                 }
 
                 var start = line.IndexOf('#');
@@ -81,7 +83,6 @@ public class TextManager : MonoBehaviour
 
     private Entity GetPart(string key)
     {
-        _lastLocationKey = key;
         if (_parts.ContainsKey(key))
             return _parts[key];
         else return new Entity();
@@ -89,14 +90,11 @@ public class TextManager : MonoBehaviour
 
     private void ShowPopup(string key)
     {
-        if (_itemsParts.ContainsKey(key))
-            _popup.ShowText(_itemsParts[key]);
+        if (_parts.ContainsKey(key))
+            _popup.ShowText(key);
     }
 
-    private void ReloadMainText()
-    {
-        _textField.SetText(_parts[_lastLocationKey]);
-    }
+
 }
 
 public struct Entity
