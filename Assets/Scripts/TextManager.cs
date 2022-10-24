@@ -8,8 +8,9 @@ public class TextManager : MonoBehaviour
     [SerializeField] private TextField _textField;
     [SerializeField] private Popup _popup;
     //private string _text;
-    private Dictionary<string, string> _parts = new Dictionary<string, string>();
-    private Dictionary<string, string> _itemsParts = new Dictionary<string, string>();
+    private Dictionary<string, Entity> _parts = new Dictionary<string, Entity>();
+    private Dictionary<string, Entity> _itemsParts = new Dictionary<string, Entity>();
+    private string _lastLocationKey;
 
     void Start()
     {
@@ -21,6 +22,7 @@ public class TextManager : MonoBehaviour
         {
             ParseText(theTextFile.text, _parts);
 
+            _lastLocationKey = "start";
             _textField.SetText(_parts["start"]);
         }
 
@@ -31,11 +33,12 @@ public class TextManager : MonoBehaviour
         }
     }
 
-    private void ParseText(string text, Dictionary<string, string> parts)
+    private void ParseText(string text, Dictionary<string, Entity> parts)
     {
         var lines = text.Split('\n');
 
         var key = "";
+        var name = "";
         var builder = new StringBuilder();
         foreach (var line in lines)
         {
@@ -43,10 +46,16 @@ public class TextManager : MonoBehaviour
             {
                 if (key != "")
                 {
-                    parts.Add(key, builder.ToString());
+                    parts.Add(key, new Entity() { name = name, text = builder.ToString() });
                 }
 
-                key = line.Substring(line.IndexOf('#') + 1).Trim();
+                var start = line.IndexOf('#');
+                var separator = line.IndexOf(' ', start);
+
+                if (separator == -1) break;
+                key = line.Substring(start + 1, separator - start - 1).Trim();
+                name = line.Substring(separator + 1).Trim();
+
                 builder.Clear();
             }
             else if (key != "")
@@ -70,11 +79,12 @@ public class TextManager : MonoBehaviour
         }
     }
 
-    private string GetPart(string key)
+    private Entity GetPart(string key)
     {
+        _lastLocationKey = key;
         if (_parts.ContainsKey(key))
             return _parts[key];
-        else return "";
+        else return new Entity();
     }
 
     private void ShowPopup(string key)
@@ -82,4 +92,15 @@ public class TextManager : MonoBehaviour
         if (_itemsParts.ContainsKey(key))
             _popup.ShowText(_itemsParts[key]);
     }
+
+    private void ReloadMainText()
+    {
+        _textField.SetText(_parts[_lastLocationKey]);
+    }
+}
+
+public struct Entity
+{
+    public string name;
+    public string text;
 }

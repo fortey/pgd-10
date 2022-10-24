@@ -8,21 +8,23 @@ using UnityEngine.EventSystems;
 [RequireComponent(typeof(TextMeshProUGUI))]
 public class TextField : MonoBehaviour, IPointerClickHandler
 {
-    public Func<string, string> GetPart;
+    public Func<string, Entity> GetPart;
     public Action<string> ShowPopup;
-    private TextMeshProUGUI _textMeshPro;
+    [SerializeField] private TextMeshProUGUI _textMeshPro;
+    [SerializeField] private TextMeshProUGUI _nameLabel;
     private Camera _camera;
 
     private Dictionary<string, string> _actionTexts = new Dictionary<string, string>();
     void Awake()
     {
-        _textMeshPro = GetComponent<TextMeshProUGUI>();
+        //_textMeshPro = GetComponent<TextMeshProUGUI>();
         _camera = Camera.main;
     }
 
-    public void SetText(string text)
+    public void SetText(Entity entity)
     {
-        _textMeshPro.text = ParseText(text);
+        _nameLabel.text = entity.name;
+        _textMeshPro.text = ParseText(entity.text);
     }
 
     public void OnPointerClick(PointerEventData eventData)
