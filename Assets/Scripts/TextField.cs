@@ -99,7 +99,7 @@ public class TextField : MonoBehaviour, IPointerClickHandler
             }
 
             var name = cur_text.Substring(separator + 1, end - separator - 1);
-            var link = $"<link=\"{url}\"><u><color=blue>{name}</color></u></link>";
+            var link = $"<link=\"{url}\"><color=blue>{name}</color></link>";
             cur_text = cur_text.Replace(cur_text.Substring(start, end - start + 1), link);
 
             if (action != "")
@@ -117,7 +117,7 @@ public class TextField : MonoBehaviour, IPointerClickHandler
 
             var url = cur_text.Substring(start + 1, separator - start - 1);
             var name = cur_text.Substring(separator + 1, end - separator - 1);
-            var link = $"<link=\"!{url}\"><u><color=blue>{name}</color></u></link>";
+            var link = $"<link=\"!{url}\"><color=blue>{name}</color></link>";
             cur_text = cur_text.Replace(cur_text.Substring(start, end - start + 1), link);
         }
 
