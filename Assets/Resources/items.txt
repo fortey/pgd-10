@@ -1,4 +1,7 @@
 #knife Нож takeable
 описание ножа
 <!knife {1 &takeKnife Взять нож.}>
+
+#part Часть
+всего ва ва ваавв
 #end
