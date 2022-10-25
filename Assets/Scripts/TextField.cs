@@ -18,6 +18,8 @@ public class TextField : MonoBehaviour, IPointerClickHandler
     private Dictionary<string, string> _actionTexts = new Dictionary<string, string>();
 
     private Entity _lastEntity;
+    private readonly string colorBlue = "#4d6fa1";
+    private readonly string colorGinger = "#bb6a33";
 
 
     public void SetText(string url)
@@ -107,7 +109,7 @@ public class TextField : MonoBehaviour, IPointerClickHandler
             }
 
             var name = cur_text.Substring(separator + 1, end - separator - 1);
-            var link = $"<link=\"{url}\"><color=blue>{name}</color></link>";
+            var link = $"<link=\"{url}\"><{colorBlue}>{name}</color></link>";
             cur_text = cur_text.Replace(cur_text.Substring(start, end - start + 1), link);
 
             if (action != "")
@@ -125,7 +127,7 @@ public class TextField : MonoBehaviour, IPointerClickHandler
 
             var url = cur_text.Substring(start + 1, separator - start - 1);
             var name = cur_text.Substring(separator + 1, end - separator - 1);
-            var link = $"<link=\"!{url}\"><color=blue>{name}</color></link>";
+            var link = $"<link=\"!{url}\"><{colorBlue}>{name}</color></link>";
             cur_text = cur_text.Replace(cur_text.Substring(start, end - start + 1), link);
         }
 
