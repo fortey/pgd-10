@@ -5,24 +5,26 @@ using UnityEngine;
 
 public class Inventory : Singleton<Inventory>
 {
-    private List<string> _items = new List<string>();
-    [SerializeField] private TextMeshProUGUI _text;
+    private List<Entity> _items = new List<Entity>();
+    [SerializeField] private ItemButton _itemButtonPrefab;
+    [SerializeField] private Transform _itemContainer;
 
-    public void AddItem(string item)
+    public void AddItem(Entity item)
     {
         _items.Add(item);
-        RefreshText();
+
+        var itemButton = Instantiate(_itemButtonPrefab, _itemContainer);
+        itemButton.Initialize(item);
     }
 
-    public void RemoveItem(string item)
+    public void RemoveItem(Entity item)
     {
         _items.Remove(item);
-        RefreshText();
     }
 
-    private void RefreshText()
+    public void onItemButtonClick()
     {
-        _text.text = string.Join("\n", _items);
+
     }
 
 }
