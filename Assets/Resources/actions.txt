@@ -1,0 +1,7 @@
+#hummer
+target: cup
+var: broken_cup
+description: Разбить чашку молотком
+location: room1
+
+#end

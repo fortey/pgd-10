@@ -63,6 +63,7 @@ public class TextField : MonoBehaviour, IPointerClickHandler
         var cur_text = text;
         _actionTexts.Clear();
 
+        // <>
         while (cur_text.IndexOf('<') != -1)
         {
             var start = cur_text.IndexOf('<');
@@ -87,6 +88,7 @@ public class TextField : MonoBehaviour, IPointerClickHandler
             cur_text = cur_text.Replace(cur_text.Substring(start, end - start + 1), sentense);
         }
 
+        // {}
         while (cur_text.IndexOf('{') != -1)
         {
             var start = cur_text.IndexOf('{');
@@ -108,8 +110,11 @@ public class TextField : MonoBehaviour, IPointerClickHandler
                 //GameActions.instance.Invoke(action);
             }
 
+            var entity = GetPart(url);
+            var color = entity.takeable ? colorBlue : colorGinger;
+
             var name = cur_text.Substring(separator + 1, end - separator - 1);
-            var link = $"<link=\"{url}\"><{colorBlue}>{name}</color></link>";
+            var link = $"<link=\"{url}\"><{color}>{name}</color></link>";
             cur_text = cur_text.Replace(cur_text.Substring(start, end - start + 1), link);
 
             if (action != "")
@@ -117,6 +122,7 @@ public class TextField : MonoBehaviour, IPointerClickHandler
 
         }
 
+        // []
         while (cur_text.IndexOf('[') != -1)
         {
             var start = cur_text.IndexOf('[');
@@ -127,7 +133,11 @@ public class TextField : MonoBehaviour, IPointerClickHandler
 
             var url = cur_text.Substring(start + 1, separator - start - 1);
             var name = cur_text.Substring(separator + 1, end - separator - 1);
-            var link = $"<link=\"!{url}\"><{colorBlue}>{name}</color></link>";
+
+            var entity = GetPart(url);
+            var color = entity.takeable ? colorBlue : colorGinger;
+
+            var link = $"<link=\"!{url}\"><{color}>{name}</color></link>";
             cur_text = cur_text.Replace(cur_text.Substring(start, end - start + 1), link);
         }
 
