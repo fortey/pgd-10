@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using UnityEngine;
 
@@ -20,19 +21,40 @@ public class TextManager : MonoBehaviour
         _popupTextField.GetPart = GetPart;
         _popupTextField.ShowPopup = ShowPopup;
 
-        TextAsset theTextFile = Resources.Load<TextAsset>("text");
-        if (theTextFile != null)
+        if (File.Exists(Application.dataPath + "/text.txt"))
         {
-            ParseText(theTextFile.text);
+            StreamReader sr = new StreamReader(Application.dataPath + "/text.txt");
+            var text = sr.ReadToEnd();
+            sr.Close();
+            ParseText(text);
+        }
+        else
+        {
+            TextAsset theTextFile = Resources.Load<TextAsset>("text");
+            if (theTextFile != null)
+            {
+                ParseText(theTextFile.text);
+            }
         }
 
-        theTextFile = Resources.Load<TextAsset>("items");
-        if (theTextFile != null)
+        if (File.Exists(Application.dataPath + "/items.txt"))
         {
-            ParseText(theTextFile.text);
+            StreamReader sr = new StreamReader(Application.dataPath + "/items.txt");
+            var text = sr.ReadToEnd();
+            sr.Close();
+            ParseText(text);
+        }
+        else
+        {
+            TextAsset theTextFile = Resources.Load<TextAsset>("items");
+            if (theTextFile != null)
+            {
+                ParseText(theTextFile.text);
+            }
         }
 
         _textField.SetText("start");
+
     }
 
     private void ParseText(string text)
@@ -71,19 +93,7 @@ public class TextManager : MonoBehaviour
             else if (key != "")
             {
                 var cur_line = line;
-                // while (cur_line.IndexOf('{') != -1)
-                // {
-                //     var start = cur_line.IndexOf('{');
-                //     var separator = cur_line.IndexOf(' ', start);
-                //     var end = cur_line.IndexOf('}');
 
-                //     if (separator == -1 || end == -1) break;
-
-                //     var url = cur_line.Substring(start + 1, separator - start - 1);
-                //     var name = cur_line.Substring(separator + 1, end - separator - 1);
-                //     var link = $"<link=\"{url}\"><u><color=blue>{name}</color></u></link>";
-                //     cur_line = cur_line.Replace(cur_line.Substring(start, end - start + 1), link);
-                // }
                 builder.AppendLine(cur_line);
             }
         }
