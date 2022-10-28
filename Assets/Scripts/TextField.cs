@@ -51,7 +51,11 @@ public class TextField : MonoBehaviour, IPointerClickHandler
             else
             {
                 url = url.Replace("!", "");
-                ShowPopup(url);
+
+                if (Inventory.Instance.selectedItem == "")
+                    ShowPopup(url);
+                else
+                    GameActions.Instance.UseItem(url, Inventory.Instance.selectedItem);
             }
 
 
@@ -111,7 +115,7 @@ public class TextField : MonoBehaviour, IPointerClickHandler
             }
 
             var entity = GetPart(url);
-            var color = entity.takeable ? colorBlue : colorGinger;
+            var color = entity.isItem ? colorGinger : colorBlue;
 
             var name = cur_text.Substring(separator + 1, end - separator - 1);
             var link = $"<link=\"{url}\"><{color}>{name}</color></link>";
@@ -135,7 +139,7 @@ public class TextField : MonoBehaviour, IPointerClickHandler
             var name = cur_text.Substring(separator + 1, end - separator - 1);
 
             var entity = GetPart(url);
-            var color = entity.takeable ? colorBlue : colorGinger;
+            var color = entity.isItem ? colorGinger : colorBlue;
 
             var link = $"<link=\"!{url}\"><{color}>{name}</color></link>";
             cur_text = cur_text.Replace(cur_text.Substring(start, end - start + 1), link);

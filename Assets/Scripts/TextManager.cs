@@ -4,7 +4,7 @@ using System.IO;
 using System.Text;
 using UnityEngine;
 
-public class TextManager : MonoBehaviour
+public class TextManager : Singleton<TextManager>
 {
     [SerializeField] private TextField _textField;
     [SerializeField] private TextField _popupTextField;
@@ -49,7 +49,7 @@ public class TextManager : MonoBehaviour
             TextAsset theTextFile = Resources.Load<TextAsset>("items");
             if (theTextFile != null)
             {
-                ParseText(theTextFile.text);
+                ParseText(theTextFile.text, true);
             }
         }
 
@@ -57,7 +57,7 @@ public class TextManager : MonoBehaviour
 
     }
 
-    private void ParseText(string text)
+    private void ParseText(string text, bool isItem = false)
     {
         var lines = text.Split('\n');
 
@@ -71,7 +71,7 @@ public class TextManager : MonoBehaviour
             {
                 if (key != "")
                 {
-                    _parts.Add(key, new Entity() { id = key, name = name, text = builder.ToString(), takeable = takeable });
+                    _parts.Add(key, new Entity() { id = key, name = name, text = builder.ToString(), takeable = takeable, isItem = isItem });
                 }
 
                 var start = line.IndexOf('#');
@@ -112,7 +112,10 @@ public class TextManager : MonoBehaviour
             _popup.ShowText(key);
     }
 
-
+    public void GoTo(string url)
+    {
+        _textField.SetText(url);
+    }
 }
 
 public struct Entity
@@ -121,4 +124,5 @@ public struct Entity
     public string name;
     public string text;
     public bool takeable;
+    public bool isItem;
 }

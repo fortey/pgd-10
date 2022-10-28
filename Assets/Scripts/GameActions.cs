@@ -2,14 +2,18 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
+using TMPro;
 using UnityEngine;
 
 public class GameActions : Singleton<GameActions>
 {
     private Dictionary<string, Action> _events;
-    private Dictionary<string, GameAction> _actions = new Dictionary<string, GameAction>();
+    private List<GameAction> _actions = new List<GameAction>();
 
+    [SerializeField] private TextMeshProUGUI _actionDescription;
+    //private GameAction _currentAction;
     public override void Awake()
     {
         base.Awake();
@@ -36,7 +40,7 @@ public class GameActions : Singleton<GameActions>
 
     public void Invoke(string action)
     {
-        if (_actions.ContainsKey(action))
+        if (_events.ContainsKey(action))
             _events[action]();
         else
             Debug.LogError(action);
@@ -73,7 +77,7 @@ public class GameActions : Singleton<GameActions>
             {
                 if (id != "")
                 {
-                    _actions.Add(id, new GameAction() { id = id, target = keysValue["target"], var = keysValue["var"], description = keysValue["description"], location = keysValue["location"] });
+                    _actions.Add(new GameAction() { id = id, target = keysValue["target"], var = keysValue["var"], description = keysValue["description"], location = keysValue["location"] });
                 }
 
                 var start = line.IndexOf('#');
@@ -97,6 +101,37 @@ public class GameActions : Singleton<GameActions>
                     }
                 }
             }
+        }
+    }
+
+    public void OnLinkSelected(string url)
+    {
+        var currentItem = Inventory.Instance.selectedItem;
+        if (currentItem == "") return;
+        var target = url.Replace("!", "");
+        var action = _actions.FirstOrDefault(a => a.id == currentItem && a.target == target);
+        if (action != null)
+        {
+            //_currentAction = action;
+            _actionDescription.text = action.description;
+        }
+    }
+
+    public void OnLinkDeselected()
+    {
+        _actionDescription.text = "";
+        //_currentAction = null;
+    }
+
+    public void UseItem(string url, string item)
+    {
+        var action = _actions.FirstOrDefault(a => a.id == item && a.target == url);
+        if (action != null)
+        {
+            var value = action.var.IndexOf('!') == -1;
+            var variable = action.var.Replace("!", "");
+            GlobalVariables.Instance.vars[variable] = value;
+            TextManager.Instance.GoTo(action.location);
         }
     }
 }

@@ -1,5 +1,5 @@
 
-public struct GameAction
+public class GameAction
 {
     public string id;
     public string target;

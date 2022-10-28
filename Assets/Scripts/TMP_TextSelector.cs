@@ -75,6 +75,8 @@ namespace TMPro.Examples
                 // Clear previous link selection if one existed.
                 if (m_selectedLink != -1 && (linkIndex == -1 || linkIndex != m_selectedLink))
                 {
+                    GameActions.Instance.OnLinkDeselected();
+
                     TMP_LinkInfo wInfo = m_TextMeshPro.textInfo.linkInfo[m_selectedLink];
 
                     for (int i = 0; i < wInfo.linkTextLength; i++)
@@ -132,6 +134,8 @@ namespace TMPro.Examples
                     m_selectedLink = linkIndex;
 
                     TMP_LinkInfo wInfo = m_TextMeshPro.textInfo.linkInfo[m_selectedLink];
+
+                    GameActions.Instance.OnLinkSelected(wInfo.GetLinkID());
 
                     // Iterate through each of the characters of the word.
                     for (int i = 0; i < wInfo.linkTextLength; i++)

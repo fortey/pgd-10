@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Inventory : Singleton<Inventory>
 {
+    public string selectedItem { get; private set; } = "";
     private List<Entity> _items = new List<Entity>();
     private List<ItemButton> _itemsButtons = new List<ItemButton>();
     [SerializeField] private ItemButton _itemButtonPrefab;
@@ -31,11 +32,15 @@ public class Inventory : Singleton<Inventory>
 
     public void SelectItem(ItemButton button)
     {
+        selectedItem = button.entity.id;
         foreach (var itemButton in _itemsButtons)
         {
             if (itemButton != button)
                 itemButton.Deselect();
         }
     }
+
+    public void DeselectItem()
+    { selectedItem = ""; }
 
 }

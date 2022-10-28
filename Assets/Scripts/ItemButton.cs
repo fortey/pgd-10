@@ -9,12 +9,12 @@ public class ItemButton : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _textMeshPro;
     [SerializeField] private Button _button;
     [SerializeField] private Image _image;
-    private Entity _entity;
+    public Entity entity { get; private set; }
     private bool _isSelect;
 
     public void Initialize(Entity entity)
     {
-        _entity = entity;
+        this.entity = entity;
         _textMeshPro.text = entity.name;
         transform.SetAsFirstSibling();
         gameObject.SetActive(true);
@@ -25,18 +25,14 @@ public class ItemButton : MonoBehaviour
         _isSelect = !_isSelect;
         if (_isSelect)
         {
-            Select();
+            Inventory.Instance.SelectItem(this);
+            _image.color = new Color(_image.color.r, _image.color.g, _image.color.b, 1f);
         }
         else
         {
+            Inventory.Instance.DeselectItem();
             _image.color = new Color(_image.color.r, _image.color.g, _image.color.b, 0f);
         }
-    }
-
-    private void Select()
-    {
-        _image.color = new Color(_image.color.r, _image.color.g, _image.color.b, 1f);
-        Inventory.Instance.SelectItem(this);
     }
 
     public void Deselect()
