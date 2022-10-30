@@ -64,7 +64,7 @@ public class GameActions : Singleton<GameActions>
 
         var id = "";
 
-        var keys = new string[] { "target", "var", "description", "location" };
+        var keys = new string[] { "target", "var", "description", "location", "condition" };
         var keysValue = new Dictionary<string, string>();
         foreach (var key in keys)
         {
@@ -77,7 +77,7 @@ public class GameActions : Singleton<GameActions>
             {
                 if (id != "")
                 {
-                    _actions.Add(new GameAction() { id = id, target = keysValue["target"], var = keysValue["var"], description = keysValue["description"], location = keysValue["location"] });
+                    _actions.Add(new GameAction() { id = id, target = keysValue["target"], var = keysValue["var"], description = keysValue["description"], location = keysValue["location"], condition = keysValue["condition"] });
                 }
 
                 var start = line.IndexOf('#');
@@ -110,7 +110,7 @@ public class GameActions : Singleton<GameActions>
         if (currentItem == "") return;
         var target = url.Replace("!", "");
         var action = _actions.FirstOrDefault(a => a.id == currentItem && a.target == target);
-        if (action != null)
+        if (action != null && action.CanUse())
         {
             //_currentAction = action;
             _actionDescription.text = action.description;
@@ -126,7 +126,7 @@ public class GameActions : Singleton<GameActions>
     public void UseItem(string url, string item)
     {
         var action = _actions.FirstOrDefault(a => a.id == item && a.target == url);
-        if (action != null)
+        if (action != null && action.CanUse())
         {
             var value = action.var.IndexOf('!') == -1;
             var variable = action.var.Replace("!", "");

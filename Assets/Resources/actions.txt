@@ -4,4 +4,17 @@ var: broken_cup
 description: Разбить чашку молотком
 location: room1
 
+#масло
+target: тилифон
+var: облитый_маслом
+description: Облить маслом
+location: room1
+
+#спичка
+target: тилифон
+var: сожженный
+description: сжечь
+location: room1
+condition: облитый_маслом
+
 #end
